@@ -5,18 +5,18 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE login (
-    loginID SERIAL PRIMARY KEY,
+CREATE TABLE posts (
+    postID SERIAL PRIMARY KEY,
     userID INT REFERENCES users(userID),
-    loginTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    logoutTime TIMESTAMP
+    title VARCHAR(255) NOT NULL,
+    content TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE wishlist (
-    wishlistID SERIAL PRIMARY KEY,
+CREATE TABLE comments (
+    commentID SERIAL PRIMARY KEY,
     userID INT REFERENCES users(userID),
-    itemName VARCHAR(255) NOT NULL,
-    description TEXT,
-    price DECIMAL(10, 2),
-    priority INT
+    postID INT REFERENCES posts(postID),
+    content TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

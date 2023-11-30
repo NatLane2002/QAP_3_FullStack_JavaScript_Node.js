@@ -6,6 +6,9 @@ const db = require("../services/db");
 router.get("/", async (req, res) => {
 try {
     const result = await db.query("SELECT * FROM users");
+    if (DEBUG) {
+        // console.log(result.rows);
+    }
     res.render("users", { users: result.rows });
 } catch (err) {
     console.error("Error executing query", err);
@@ -22,6 +25,9 @@ router.get("/new", (req, res) => {
 router.post("/", async (req, res) => {
 const { username, email, password } = req.body;
 try {
+    if (DEBUG) {
+        console.log("Creating user with username: ", username);
+    }
     const result = await db.query(
       "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *",
     [username, email, password]
@@ -37,10 +43,16 @@ try {
 router.get("/:id/edit", async (req, res) => {
 const { id } = req.params;
 try {
+    if (DEBUG) {
+        console.log("Editing user with id: ", id);
+    }
     const result = await db.query("SELECT * FROM users WHERE userID = $1", [
     id,
     ]);
-    res.render("users/edit", { user: result.rows[0] });
+    if (DEBUG) {
+        console.log(result.rows[0])
+    }
+    res.render("userEdit", { user: result.rows[0] });
 } catch (err) {
     console.error("Error executing query", err);
     res.status(500).send("Internal Server Error");
@@ -48,15 +60,35 @@ try {
 });
 
 // Update a user
-router.patch("/:id", async (req, res) => {
+router.patch("/", async (req, res) => {
 const { id } = req.params;
 const { username, email, password } = req.body;
 try {
+    if (DEBUG) {
+        console.log("Updating user with id: ", id);
+    }
     const result = await db.query(
       "UPDATE users SET username = $1, email = $2, password = $3 WHERE userID = $4 RETURNING *",
     [username, email, password, id]
     );
     res.redirect("/users");
+} catch (err) {
+    console.error("Error executing query", err);
+    res.status(500).send("Internal Server Error");
+}
+});
+
+// Display the form for deleting a user
+router.get("/:id/delete", async (req, res) => {
+const { id } = req.params;
+try {
+    if (DEBUG) {
+        console.log("Deleting user with id: ", id);
+    }
+    const result = await db.query("SELECT * FROM users WHERE userID = $1", [
+    id,
+    ]);
+    res.render("userDelete", { user: result.rows[0] });
 } catch (err) {
     console.error("Error executing query", err);
     res.status(500).send("Internal Server Error");

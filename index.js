@@ -12,12 +12,13 @@ app.use(methodOverride('_method'));
 app.get('/', (req, res) => {
     res.render('index.ejs');
 });
+
 app.get('/about', (request, response) => {
     response.render('about.ejs');
 });
 
-// const wishlistRouter = require('./routes/wishlist')
-// app.use('/wishlist', wishlistRouter);
+const postsRouter = require('./routes/posts')
+app.use('/posts', postsRouter);
 
 // const loginsRouter = require('./routes/logins')
 // app.use('/logins', loginsRouter);
