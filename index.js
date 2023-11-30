@@ -3,6 +3,9 @@ const methodOverride = require('method-override');
 const app = express();
 const PORT = 3000;
 
+// Serve static files from the 'public' directory
+app.use(express.static('public'));
+
 global.DEBUG = true;
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
@@ -20,8 +23,8 @@ app.get('/about', (request, response) => {
 const postsRouter = require('./routes/posts')
 app.use('/posts', postsRouter);
 
-// const loginsRouter = require('./routes/logins')
-// app.use('/logins', loginsRouter);
+const commentsRouter = require('./routes/comments')
+app.use('/comments', commentsRouter);
 
 const usersRouter = require('./routes/users')
 app.use('/users', usersRouter);

@@ -2,11 +2,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <%- include('./partials/styles.ejs') %>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User List</title>
+    <title>FullStack JavaScript QAP3</title>
 </head>
 <body>
+    <div class="userPage">
     <%- include('./partials/nav.ejs') %>
     <h1>User List</h1>
     <ul>
@@ -22,7 +24,8 @@
     <% } else { %>
         <p>No users available.</p>
     <% } %>
-    <a href="/users/new">Add New User</a>
+    <a class="addNew" href="/users/new">Add New User</a>
     <%- include('./partials/foot.ejs') %>
+</div>
 </body>
 </html>
