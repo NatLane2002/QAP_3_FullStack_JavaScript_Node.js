@@ -19,17 +19,11 @@
     <p>Email: <%= user.email %></p>
 
     <!-- Form for deleting the user -->
-    <form action="/users/<%= user.userID %>" method="POST" onsubmit="deleteUser(event)">
-        <input type="hidden" name="_method" value="DELETE">
+    <form action="/users/<%= user.userid %>?_method=DELETE" method="POST">
+        <!-- <input type="hidden" name="_method" value="DELETE"> -->
         <button type="submit">Delete User</button>
     </form>
 
-    <script>
-        function deleteUser(event) {
-            event.preventDefault();
-            event.target.submit();
-        }
-    </script>
 <%- include('./partials/foot.ejs') %>
 </body>
 </html>

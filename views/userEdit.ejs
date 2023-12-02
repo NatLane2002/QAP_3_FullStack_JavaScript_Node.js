@@ -10,7 +10,7 @@
 <body>
 <%- include('./partials/nav.ejs') %>
 <h1>Edit User</h1>
-<form action="/users/<%= user.userID %>?_method=PATCH" method="POST">
+<form action="/users/<%= user.userid %>?_method=PATCH" method="POST">
     <!-- <input type="hidden" name="_method" value="PATCH"> -->
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" value="<%= user.username %>" required>

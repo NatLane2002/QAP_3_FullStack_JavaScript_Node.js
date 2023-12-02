@@ -37,16 +37,16 @@ a:hover {
 }
 
 .addNew {
-    color: #007bff;
+    background-color: black;
     text-decoration: none;
-    background-color: transparent;
+    /* background-color: transparent; */
     text-decoration: none;
     display: inline-block;
     padding: 0.5rem 1rem;
     margin: 0.5rem;
     border: 2px solid #333;
     border-radius: 4px;
-    color: #333;
+    color: #ffffff;
     transition: background-color 0.3s, color 0.3s;
     cursor: pointer;
 }
@@ -54,7 +54,7 @@ a:hover {
 .addNew:hover {
     color: white;
     text-decoration: underline;
-    background-color: #0056b3;
+    background-color: #007bff;
     cursor: pointer;
 }
 

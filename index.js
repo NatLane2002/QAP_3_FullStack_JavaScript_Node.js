@@ -2,6 +2,7 @@ const express = require('express');
 const methodOverride = require('method-override');
 const app = express();
 const PORT = 3000;
+require('dotenv').config();
 
 // Serve static files from the 'public' directory
 app.use(express.static('public'));

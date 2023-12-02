@@ -23,14 +23,14 @@ router.get("/new", (req, res) => {
 
 // Create a new post
 router.post("/", async (req, res) => {
-    const { userID, title, content } = req.body;
+    const { title, content } = req.body;
     try {
         if (DEBUG) {
             console.log("Creating post with title: ", title);
         }
         const result = await db.query(
-            "INSERT INTO posts (userID, title, content) VALUES ($1, $2, $3) RETURNING *",
-            [userID, title, content]
+            "INSERT INTO posts (title, content) VALUES ($1, $2) RETURNING *",
+            [title, content]
         );
         res.redirect("/posts");
     } catch (err) {
@@ -46,7 +46,7 @@ router.get("/:id/edit", async (req, res) => {
         if (DEBUG) {
             console.log("Editing post with id: ", id);
         }
-        const result = await db.query("SELECT * FROM posts WHERE postID = $1", [id]);
+        const result = await db.query("SELECT * FROM posts WHERE postid = $1", [id]);
         if (DEBUG) {
             console.log(result.rows[0]);
         }
@@ -62,13 +62,13 @@ router.patch("/:id", async (req, res) => {
     const { id } = req.params;
     const { title, content } = req.body;
     try {
+        const result = await db.query(
+            "UPDATE posts SET title = $1, content = $2 WHERE postid = $3 RETURNING *",
+            [title, content, id]
+        );
         if (DEBUG) {
             console.log("Updating post with id: ", id);
         }
-        const result = await db.query(
-            "UPDATE posts SET title = $1, content = $2 WHERE postID = $3 RETURNING *",
-            [title, content, id]
-        );
         res.redirect("/posts");
     } catch (err) {
         console.error("Error executing query", err);

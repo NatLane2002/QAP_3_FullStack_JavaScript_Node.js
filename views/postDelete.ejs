@@ -14,8 +14,8 @@
     <p>ID: <%= post.postID %></p>
     <p>Title: <%= post.title %></p>
     <p>Content: <%= post.content %></p>
-    <form action="/posts/<%= post.postID %>" method="POST">
-        <input type="hidden" name="_method" value="DELETE">
+    <form action="/posts/<%= post.postid %>?_method=DELETE" method="POST">
+        <!-- <input type="hidden" name="_method" value="DELETE"> -->
         <button type="submit">Delete Post</button>
     </form>
     <%- include('./partials/foot.ejs') %>

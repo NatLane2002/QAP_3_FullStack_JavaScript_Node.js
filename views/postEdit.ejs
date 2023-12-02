@@ -10,8 +10,8 @@
 <body>
     <%- include('./partials/nav.ejs') %>
     <h1>Edit Post</h1>
-    <form action="/posts/<%= post.postID %>" method="POST">
-        <input type="hidden" name="_method" value="PATCH">
+    <form action="/posts/<%= post.postid %>?_method=PATCH" method="POST">
+        <!-- <input type="hidden" name="_method" value="PATCH"> -->
         <label for="title">Title:</label>
         <input type="text" id="title" name="title" value="<%= post.title %>" required>
         <br>

@@ -42,11 +42,14 @@ try {
 // Display the form for updating a user
 router.get("/:id/edit", async (req, res) => {
 const { id } = req.params;
+if (DEBUG) {
+    console.log("id: ", id);
+}
 try {
     if (DEBUG) {
         console.log("Editing user with id: ", id);
     }
-    const result = await db.query("SELECT * FROM users WHERE userID = $1", [
+    const result = await db.query("SELECT * FROM users WHERE userid = $1", [
     id,
     ]);
     if (DEBUG) {
@@ -60,7 +63,7 @@ try {
 });
 
 // Update a user
-router.patch("/", async (req, res) => {
+router.patch("/:id", async (req, res) => {
 const { id } = req.params;
 const { username, email, password } = req.body;
 try {
@@ -68,7 +71,7 @@ try {
         console.log("Updating user with id: ", id);
     }
     const result = await db.query(
-      "UPDATE users SET username = $1, email = $2, password = $3 WHERE userID = $4 RETURNING *",
+      "UPDATE users SET username = $1, email = $2, password = $3 WHERE userid = $4 RETURNING *",
     [username, email, password, id]
     );
     res.redirect("/users");
@@ -85,7 +88,7 @@ try {
     if (DEBUG) {
         console.log("Deleting user with id: ", id);
     }
-    const result = await db.query("SELECT * FROM users WHERE userID = $1", [
+    const result = await db.query("SELECT * FROM users WHERE userid = $1", [
     id,
     ]);
     res.render("userDelete", { user: result.rows[0] });
@@ -100,7 +103,7 @@ router.delete("/:id", async (req, res) => {
 const { id } = req.params;
 try {
     const result = await db.query(
-      "DELETE FROM users WHERE userID = $1 RETURNING *",
+      "DELETE FROM users WHERE userid = $1 RETURNING *",
     [id]
     );
     res.redirect("/users");
