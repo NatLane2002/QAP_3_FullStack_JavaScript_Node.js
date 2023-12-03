@@ -23,14 +23,17 @@ router.get("/new", (req, res) => {
 
 // Create a new post
 router.post("/", async (req, res) => {
-    const { userID, title, content } = req.body;
+    const { title, content } = req.body;
     try {
+        if (!title || !content) {
+            return res.status(400).send("Title and content are required.");
+        }
         if (DEBUG) {
             console.log("Creating post with title: ", title);
         }
         const result = await db.query(
-            "INSERT INTO posts (userID, title, content) VALUES ($1, $2, $3) RETURNING *",
-            [userID, title, content]
+            "INSERT INTO posts (title, content) VALUES ($1, $2) RETURNING *",
+            [title, content]
         );
         res.redirect("/posts");
     } catch (err) {
@@ -43,12 +46,18 @@ router.post("/", async (req, res) => {
 router.get("/:id/edit", async (req, res) => {
     const { id } = req.params;
     try {
+        if (!id) {
+            return res.status(400).send("Post ID is required.");
+        }
         if (DEBUG) {
             console.log("Editing post with id: ", id);
         }
-        const result = await db.query("SELECT * FROM posts WHERE postID = $1", [id]);
+        const result = await db.query("SELECT * FROM posts WHERE postid = $1", [id]);
         if (DEBUG) {
             console.log(result.rows[0]);
+        }
+        if (!result.rows[0]) {
+            return res.status(404).send("Post not found.");
         }
         res.render("postEdit", { post: result.rows[0] });
     } catch (err) {
@@ -62,13 +71,22 @@ router.patch("/:id", async (req, res) => {
     const { id } = req.params;
     const { title, content } = req.body;
     try {
+        if (!id) {
+            return res.status(400).send("Post ID is required.");
+        }
+        if (!title || !content) {
+            return res.status(400).send("Title and content are required.");
+        }
+        const result = await db.query(
+            "UPDATE posts SET title = $1, content = $2 WHERE postid = $3 RETURNING *",
+            [title, content, id]
+        );
         if (DEBUG) {
             console.log("Updating post with id: ", id);
         }
-        const result = await db.query(
-            "UPDATE posts SET title = $1, content = $2 WHERE postID = $3 RETURNING *",
-            [title, content, id]
-        );
+        if (!result.rows[0]) {
+            return res.status(404).send("Post not found.");
+        }
         res.redirect("/posts");
     } catch (err) {
         console.error("Error executing query", err);
@@ -80,10 +98,16 @@ router.patch("/:id", async (req, res) => {
 router.get("/:id/delete", async (req, res) => {
     const { id } = req.params;
     try {
+        if (!id) {
+            return res.status(400).send("Post ID is required.");
+        }
         if (DEBUG) {
             console.log("Deleting post with id: ", id);
         }
-        const result = await db.query("SELECT * FROM posts WHERE postID = $1", [id]);
+        const result = await db.query("SELECT * FROM posts WHERE postid = $1", [id]);
+        if (!result.rows[0]) {
+            return res.status(404).send("Post not found.");
+        }
         res.render("postDelete", { post: result.rows[0] });
     } catch (err) {
         console.error("Error executing query", err);
@@ -95,7 +119,13 @@ router.get("/:id/delete", async (req, res) => {
 router.delete("/:id", async (req, res) => {
     const { id } = req.params;
     try {
-        const result = await db.query("DELETE FROM posts WHERE postID = $1 RETURNING *", [id]);
+        if (!id) {
+            return res.status(400).send("Post ID is required.");
+        }
+        const result = await db.query("DELETE FROM posts WHERE postid = $1 RETURNING *", [id]);
+        if (!result.rows[0]) {
+            return res.status(404).send("Post not found.");
+        }
         res.redirect("/posts");
     } catch (err) {
         console.error("Error executing query", err);

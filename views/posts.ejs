@@ -1,6 +1,7 @@
 <!-- posts.ejs -->
 
 <html lang="en">
+    <%- include('./partials/styles.ejs') %>
     <%- include('./partials/head.ejs') %>
     <body>
         <%- include('./partials/nav.ejs') %>
@@ -24,7 +25,7 @@
                 <p>No posts available.</p>
             <% } %>
             
-            <a href="/posts/new">Create a New Post</a>
+            <a class="addNew" href="/posts/new">Create a New Post</a>
         </div>
     </body>
     <%- include('./partials/foot.ejs') %>
