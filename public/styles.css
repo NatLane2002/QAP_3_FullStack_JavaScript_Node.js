@@ -130,3 +130,17 @@ footer {
     margin-top: 25px;
     margin-left: 17px;
 }
+
+.userEditBtn {
+    position: absolute;
+    right: 200px;
+    width: 120px;
+    text-align: center;
+}
+
+.userDeleteBtn {
+    position: absolute;
+    right: 20px;
+    width: 140px;
+    text-align: center;
+}

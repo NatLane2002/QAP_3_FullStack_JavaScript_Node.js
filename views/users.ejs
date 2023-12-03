@@ -16,9 +16,10 @@
             <% users.forEach(user => { %>
                 <li>
                     <%= user.username %> - <%= user.email %> - <%= user.userid %>
-                    <a href="/users/<%= user.userid %>/edit">Edit</a>
-                    <a href="/users/<%= user.userid %>/delete">Delete</a>
+                    <a class="userEditBtn" href="/users/<%= user.userid %>/edit">Edit User <%= user.userid %></a>
+                    <a class="userDeleteBtn" href="/users/<%= user.userid %>/delete">Delete User <%= user.userid %></a>
                 </li>
+                <br>
             <% }); %>
         </ul>
     <% } else { %>

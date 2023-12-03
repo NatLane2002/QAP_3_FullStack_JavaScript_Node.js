@@ -21,6 +21,7 @@ app.get('/about', (request, response) => {
     response.render('about.ejs');
 });
 
+// routes
 const postsRouter = require('./routes/posts')
 app.use('/posts', postsRouter);
 
@@ -30,14 +31,22 @@ app.use('/comments', commentsRouter);
 const usersRouter = require('./routes/users')
 app.use('/users', usersRouter);
 
-// // anything beginning with "/api" will go into this
-// const apiRouter = require('./routes/api')
-// app.use('/api', apiRouter);
+// api routes
+const apiusersRouter = require('./routes/api/users');
+app.use('/api', apiusersRouter);
 
+const apicommentsRouter = require('./routes/api/comments');
+app.use('/api', apicommentsRouter);
+
+const apipostsRouter = require('./routes/api/posts');
+app.use('/api', apipostsRouter);
+
+// 404 page
 app.use((req, res) => {
     res.status(404).render('404');
 });
 
+// Start the server
 app.listen(PORT, () => {
     console.log(`Simple app running on port ${PORT}.`)
 });
