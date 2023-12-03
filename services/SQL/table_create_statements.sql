@@ -1,22 +1,22 @@
 CREATE TABLE users (
-    userID SERIAL PRIMARY KEY,
+    userid SERIAL PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE login (
-    loginID SERIAL PRIMARY KEY,
-    userID INT REFERENCES users(userID),
-    loginTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    logoutTime TIMESTAMP
+CREATE TABLE posts (
+    postid SERIAL PRIMARY KEY,
+    userid INT REFERENCES users(userid),
+    title VARCHAR(255) NOT NULL,
+    content TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE wishlist (
-    wishlistID SERIAL PRIMARY KEY,
-    userID INT REFERENCES users(userID),
-    itemName VARCHAR(255) NOT NULL,
-    description TEXT,
-    price DECIMAL(10, 2),
-    priority INT
+CREATE TABLE comments (
+    commentid SERIAL PRIMARY KEY,
+    userid INT REFERENCES users(userid),
+    postid INT REFERENCES posts(postid),
+    content TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
